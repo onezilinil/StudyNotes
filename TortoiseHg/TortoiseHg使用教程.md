@@ -58,7 +58,7 @@
   
     ![创建仓库和克隆仓库操作-webserver设置2.png](https://allenwan14353.github.io/MyPostImages/TortoiseHg/创建仓库和克隆仓库操作-webserver设置2.png)
   
-    3.开启服务器（如果点启动开启不了服务器，说明端口被占用了，换一个就可以）
+    3.开启服务器（如果点启动开启不了服务器，说明端口被占用了，换一个就可以。这里路径和本地路径的区别：路径是指开启服务器后的会添加在url中的地址，比如设置路径为`/hg1`，则克隆的时候url地址为`http://localhost:8000/hg1`;本地地址则是url地址映射的本地文件。）
   
     ![创建仓库和克隆仓库操作-开启webserver服务.png](https://allenwan14353.github.io/MyPostImages/TortoiseHg/创建仓库和克隆仓库操作-开启webserver服务.png)
   
@@ -123,3 +123,5 @@
       ![拉取和提交操作-冲突解决2.png](https://AllenWan14353.github.io/MyPostImages/TortoiseHg/拉取和提交操作-冲突解决2.png)
 
 [TortoiseHg 学习笔记](https://blog.csdn.net/xukai871105/article/details/25649331)
+
+[Mercurial与TortoiseHg使用入门教程](https://wenku.baidu.com/view/c69e9d34a32d7375a41780c4.html?rec_flag=default&sxts=1563428054883)
