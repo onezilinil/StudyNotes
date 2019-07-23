@@ -1480,7 +1480,7 @@ webpack 是前端的一个项目构建工具，它是基于 Node.js 开发出来
 
 * 安装node.js，在控制台使用`node -v`，`npm -v`，查看是否安装成功。
 
-* 安装VS Code，安装中文插件，安装view in brower插件，点击`工具栏->查看->终端`可以使用命令提示符。
+* 安装VS Code，安装中文插件，安装view in brower插件，安装Vetur和Vue 2 Snippets插件，点击`工具栏->查看->终端`可以使用命令提示符。
 
 * webpack安装的两种方式：
   
@@ -1837,7 +1837,7 @@ var vm = new Vue({
 
 * 修改webpack.config.js文件，
 
-  ```
+  ```vue
   //在main.js中
   `import Vue from vue`
   
@@ -1850,13 +1850,13 @@ var vm = new Vue({
   }
   ```
 
-## 六、在.vue文件中使用组件和路由
+## 六、在.vue文件中使用组件、路由和样式
 
 * 组件
 
   在.vue的组件中，通过 script 标签来定义组件的行为，需要使用ES6中提供的export default方式，导出一个vue实例对象。
 
-  ```
+  ```vue
   //1.模板中可以使用export default和export中定义的数据和行为
   <template>
       <div>
@@ -1894,45 +1894,77 @@ var vm = new Vue({
 
 * 路由
 
+  * 在vue组件页面中，集成vue-router路由模块
+  
+    ```vue
+    //1. main.js中导入路由模块：
+    import VueRouter from 'vue-router'
+    //安装路由模块：
+    Vue.use(VueRouter);
+    //导入需要展示的组件:
+    import login from './components/account/login.vue'
+    import register from './components/account/register.vue'
+    
+    //4. 创建路由对象，这里也可以使用子路由，不过要导入子路由组件:
+    var router = new VueRouter({
+      routes: [
+        { path: '/', redirect: '/login' },
+        { path: '/login', component: login },
+        { path: '/register', component: register }
+      ]
+    });
+    
+    //5. 将路由对象，挂载到 Vue 实例上:
+    var vm = new Vue({
+    	el: '#app',
+    	//这里使用了render函数会覆盖掉指定的容器，需要将路由的标签写在app组件中：
+        render(c) {
+    		return c(App);
+    	},
+    	router // 将路由对象，挂载到 Vue 实例上
+    });
+    
+    //6. 改造App.vue组件，在 template 中，添加`router-link`和`router-view`：
+        <router-link to="/login">登录</router-link>
+        <router-link to="/register">注册</router-link>
+        <router-view></router-view>
+    ```
+  
+  * 抽离路由模块
+  
+    ```vue
+    //另建一个router.js，将main.js中的路由模块抽离出来
+    // 1.导入路由模块：
+    import VueRouter from 'vue-router'
+    Vue.use(VueRouter);
+    import login from './components/account/login.vue'
+    import register from './components/account/register.vue'
+    
+    // 创建路由对象，这里也可以使用子路由，不过要导入子路由组件:
+    var router = new VueRouter({
+      routes: [
+        { path: '/', redirect: '/login' },
+        { path: '/login', component: login },
+        { path: '/register', component: register }
+      ]
+    });
+    
+    export default router
+    
+    // 2.在main.js中导入
+    import router from "./router.js"
+    ```
+
+* 样式
+
+  ```vue
+  //普通的style标签只支持普通的css样式，想要支持scss或less，需要设置lang；scope表示样式只在组件内生效，不是全局生效，只要style标签实在.vue组件中定义的，那么推荐使用。
+  <style lang="less" scope>
+  	...
+  <style>
   ```
-  ## 在vue组件页面中，集成vue-router路由模块
-  
-  //1. main.js中导入路由模块：
-  import VueRouter from 'vue-router'
-  //安装路由模块：
-  Vue.use(VueRouter);
-  //导入需要展示的组件:
-  import login from './components/account/login.vue'
-  import register from './components/account/register.vue'
-  
-  //4. 创建路由对象:
-  var router = new VueRouter({
-    routes: [
-      { path: '/', redirect: '/login' },
-      { path: '/login', component: login },
-      { path: '/register', component: register }
-    ]
-  });
-  
-  //5. 将路由对象，挂载到 Vue 实例上:
-  var vm = new Vue({
-  	el: '#app',
-  	render: c => { return c(App) }
-      render(c) {
-  		return c(App);
-  	},
-  	router // 将路由对象，挂载到 Vue 实例上
-  });
-  
-  //6. 改造App.vue组件，在 template 中，添加`router-link`和`router-view`：
-      <router-link to="/login">登录</router-link>
-      <router-link to="/register">注册</router-link>
-      <router-view></router-view>
-  ```
 
   
-
-
 
 
 
