@@ -1,8 +1,8 @@
-# Vue.js学习
+Vue.js的基础学习
 
 ## 一、概念
 
-**1.vue.js是什么**
+### **1.vue.js是什么**
 
 vue.js是一套用于构建用户界面的渐进式JavaScript框架。
 
@@ -14,7 +14,7 @@ vue.js是一套用于构建用户界面的渐进式JavaScript框架。
 >个人理解  
 可以让开发人员选取vue中的部分功能结合自己的组件和模块进行开发，而不是强推给开发者除了需要的功能以外还附加需要理解的知识。 
 
-**2.为什么学vue.js**
+### **2.为什么学vue.js**
 
 * 特点：双向数据绑定的概念
 
@@ -23,7 +23,7 @@ vue.js是一套用于构建用户界面的渐进式JavaScript框架。
 >个人理解  
 以前学js、jq的时候，在函数中需要经常书写代码获取到dom对象并赋值，现在只需要用提供的“{{ }}”等指令就可以直接在页面上显示数据，简化开发。
 
-**3.MVC和MVVM**
+### **3.MVC和MVVM**
 
 * MVC是后端分层的概念，model层、view层和controller层
 * MVVM是是前端视图层的概念，主要关注于视图层分离，也就是说：MVVM把前端的视图层，分为了三部分 Model（保持的是每个页面中的单独数据）, View（每个页面中HTML结构） , VM ViewModel(v和m之间的调度者)。 mvvm为了让开发更加方便，提供了数据的双向绑定。
@@ -36,11 +36,15 @@ vue.js是一套用于构建用户界面的渐进式JavaScript框架。
 
 ## 二、基本结构和语法
 
-**1.** 需要先导入`vue-2.4.0.js`文件
+### **1. 导入js库**
 
-**2.** 在js标签中书写基本结构
+需要先导入`vue-2.4.0.js`文件
 
-```vue的基本语法
+### **2. 基本结构**
+
+在js标签中书写基本结构
+
+```vue
 var myVue = new vue({
 	el   :"#app",
 	data :{ },
@@ -50,8 +54,12 @@ var myVue = new vue({
 
 ## 三、属性
 
-**1.`el`**
+### **1.`el`**
 提供一个在页面上已存在的DOM元素作为vue实例挂载目标，一般都是用css选择器，也就是vue控制作用的区域。
+
+```
+el:"#app"
+```
 
 **注意：** 
 
@@ -60,28 +68,23 @@ var myVue = new vue({
 
  [vue的选项的el疑惑]("https://segmentfault.com/q/1010000012520601/")
 
-```vue
-el:"#app"
-```
-
-**2.`data`**
+### **2.`data`**
 存储数据，vue会监听数据的改变，只要数据以发生改变，就会自动同步到页面。所以data中的数据总是最新的。
 
-```vue
+```
 data:{
 	test:"helloworld",
 	test2:"<font color='red'>helloworld</font>",
 	test3:true,
 	color:"red",
 	number:10,
-	...
 }
 ```
 
-**3.`methods`**
+### **3.`methods`**
 定义当前vue所有可用的方法。
 
-```vue
+```
 methods:{
 	myMethods: function (){
 		...
@@ -97,92 +100,91 @@ methods:{
 <button onclick="myVue.myMethods()">add++</button>
 ```
 
-**4.`filters`**
+### **4.`filters`**
 定义私有过滤器属性。
 
-**5.`directives`**
+### **5.`directives`**
 自定义私有vue指令（动作和样式）。
 
-**6.`components`**
+### **6.`components`**
 定义私有组件
 
-**7.`watch`**
+### **7.`watch`**
 可以监听到data中指定数据的变化，然后触发watch中对应的处理函数。
 
-* 监听data中数据的改变
+**7.1 监听data中数据的改变**
 
-  ```vue
-  <script>
-  var vm = new Vue({
-      el: '#app',
-      data: {
-          firstName: 'jack',
-          lastName: 'chen',
-          fullName: 'jack - chen'
-      },
-      methods: {},
-      watch: {
-          // 第一个参数是新数据，第二个参数是旧数据
-          'firstName': function (newVal, oldVal) { 
-              this.fullName = newVal + ' - ' + this.lastName;
-          },
-          'lastName': function (newVal, oldVal) {
-              this.fullName = this.firstName + ' - ' + newVal;
-          }
-      }
-  });
-  </script>
-  ```
+```vue
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            firstName: 'jack',
+            lastName: 'chen',
+            fullName: 'jack - chen'
+        },
+        methods: {},
+        watch: {
+            // 第一个参数是新数据，第二个参数是旧数据
+            'firstName': function (newVal, oldVal) { 
+                this.fullName = newVal + ' - ' + this.lastName;
+            },
+            'lastName': function (newVal, oldVal) {
+                this.fullName = this.firstName + ' - ' + newVal;
+            }
+        }
+    });
+</script>
+```
 
-  * **注意：**
-    *  watch中对应的处理函数名称和data中要监听的数据键一致。
+* **注意：**watch中对应的处理函数名称和data中要监听的数据键一致。
 
-* 监听路由地址的改变
+**7.2 监听路由地址的改变**
 
-  ```vue
-  <div id="app">
-      <router-link to="/login">登录</router-link>
-      <router-link to="/register">注册</router-link>
-  
-      <router-view></router-view>
-  </div>
-  
-  <script>
-      var login = Vue.extend({
-          template: '<h1>登录组件</h1>'
-      });
-  
-      var register = Vue.extend({
-          template: '<h1>注册组件</h1>'
-      });
-  
-      var router = new VueRouter({
-          routes: [
-              { path: "/login", component: login },
-              { path: "/register", component: register }
-          ]
-      });
-  
-      // 创建 Vue 实例，得到 ViewModel
-      var vm = new Vue({
-          el: '#app',
-          data: {},
-          methods: {},
-          router: router,
-          watch: {
-              '$route': function (newVal, oldVal) {
-                  if (newVal.path === '/login') {
-                      console.log('这是登录组件');
-                  }
-              }
-          }
-      });
-  </script>
-  ```
+```vue
+<div id="app">
+    <router-link to="/login">登录</router-link>
+    <router-link to="/register">注册</router-link>
 
-  * 获取到路由`$route`，监听路由的改变，也可以使用`$route.path`，这就是监听路由地址的改变。
+    <router-view></router-view>
+</div>
 
-**8.computed**
+<script>
+    var login = Vue.extend({
+        template: '<h1>登录组件</h1>'
+    });
+
+    var register = Vue.extend({
+        template: '<h1>注册组件</h1>'
+    });
+
+    var router = new VueRouter({
+        routes: [
+            { path: "/login", component: login },
+            { path: "/register", component: register }
+        ]
+    });
+
+    // 创建 Vue 实例，得到 ViewModel
+    var vm = new Vue({
+        el: '#app',
+        data: {},
+        methods: {},
+        router: router,
+        watch: {
+            '$route': function (newVal, oldVal) {
+                if (newVal.path === '/login') {
+                    console.log('这是登录组件');
+                }
+            }
+        }
+    });
+</script>
+```
+
+* 获取到路由`$route`，监听路由的改变，也可以使用`$route.path`，这代表监听路由地址的改变。
+
+### **8.computed**
 在computed中可以定义一些属性，这些属性叫做计算属性，计算属性的本质就是一个方法，不过在使用的时候把它当作属性而不是方法来使用。
 
 ```vue
@@ -224,15 +226,14 @@ methods:{
 </script>
 ```
 
-**注意：**
-
-* 计算属性调用的时候不用当作方法去调用，而是当作普通的data中的数据去调用。
-* 只要计算属性这个方法中所用到的任何数据改变，就会重新计算属性方法的返回值。
-* 计算属性的求值结果会被缓存起来，只要使用到的数据未改变，计算属性调用的时候就是一直使用这个缓存起来的值。
+* **注意：**
+  * 计算属性调用的时候不用当作方法去调用，而是当作普通的data中的数据去调用。
+  * 只要计算属性这个方法中所用到的任何数据改变，就会重新计算属性方法的返回值。
+  * 计算属性的求值结果会被缓存起来，只要使用到的数据未改变，计算属性调用的时候就是一直使用这个缓存起来的值。
 
 [Vue中的computed属性](https://www.cnblogs.com/gunelark/p/8492468.html)
 
-**9.render**
+### **9.render**
 
 render属性渲染组件，可以用组件把原本的el指定的容器替换掉。
 
@@ -250,14 +251,13 @@ render属性渲染组件，可以用组件把原本的el指定的容器替换掉
 </script>
 ```
 
-**render 渲染组件和直接使用组件的区别：**
-
-* render渲染的组件，会先把原本el指定的容器删掉，再替换成createElements函数中传递的组件参数，并且只能传递一个组件。
-* 直接使用组件只是将组件放入el指定的容器中，并且可以使用多个组件。
+* **render 渲染组件和直接使用组件的区别：**
+  * render渲染的组件，会先把原本el指定的容器删掉，再替换成createElements函数中传递的组件参数，并且只能传递一个组件。
+  * 直接使用组件只是将组件放入el指定的容器中，并且可以使用多个组件。
 
 ## 四、vue的指令
 
-**1. `{{ }}`**
+### **1. `{{ }}`**
 
 插值表达式，放在文本中，可以直接调用vue中data的键，将相应的值数据渲染到前端。
 
@@ -267,7 +267,7 @@ render属性渲染组件，可以用组件把原本的el指定的容器替换掉
 </div>
 ```
 
-**2.`v-cloak`**
+### **2.`v-cloak`**
 
 可以解决插值表达式闪烁（页面会先显示插值表达式，然后才会调用vue的数据）的问题。
 
@@ -277,17 +277,15 @@ render属性渲染组件，可以用组件把原本的el指定的容器替换掉
        display: none;
     }
  </style>
-```
 
-```vue
 <div id="app">
     <h1 v-cloak>{{test}}</h1>
 </div>
 ```
 
-原理：在style中设置为不可见，当vue数据请求成功的时候会移除v-cloak属性，style就可见了。
+* **原理**：在style中设置为不可见，当vue数据请求成功的时候会移除v-cloak属性，style就可见了。
 
-**3.`v-text`**
+### **3.`v-text`**
 
 可以直接调用data中键，在前端获取值，没有闪烁的问题；会覆盖元素中原本的文本内容。
 
@@ -297,7 +295,7 @@ render属性渲染组件，可以用组件把原本的el指定的容器替换掉
 </div>
 ```
 
-**4.`v-html`**
+### **4.`v-html`**
 
 可以解析data中调用的键对应值的html标签，显示在文本中
 
@@ -307,7 +305,7 @@ render属性渲染组件，可以用组件把原本的el指定的容器替换掉
 </div>
 ```
 
-**5.`v-for`**
+### **5.`v-for`**
 
 循环条件，在vue2的版本里，当在组件中使用 v-for 时，key 属性现在是必须绑定的，属性值只能使用number或string。
 
@@ -329,7 +327,7 @@ data: {
 },
 ```
 
-* 循环数组
+**5.1 循环数组**
 
 ```vue
 <p v-for="(item,i) in array">
@@ -337,7 +335,7 @@ data: {
 </p>
 ```
 
-* 对象数组
+**5.2 对象数组**
 
 ```vue
 <p v-for="(item,i) in list" :key="item.id">
@@ -345,7 +343,7 @@ data: {
 </p>
 ```
 
-* 循环对象（将对象的属性值按照键值对一样循环）
+**5.3 循环对象（将对象的属性值按照键值对一样循环）**
 
 ```vue
 <p v-for="(value,key,i) in user" :key="value">
@@ -353,7 +351,7 @@ data: {
 </p>
 ```
 
-* 循环数字
+**5.4 循环数字**
 
 ```vue
 <p v-for="count in 10">
@@ -361,7 +359,7 @@ data: {
 </p>
 ```
 
-**6.`v-if`、`v-show`、`v-else`**
+### **6.`v-if`、`v-show`、`v-else`**
 
 判断条件,控制标签内容的显示和隐藏。
 
@@ -378,7 +376,7 @@ data: {
 </h1>
 ```
 
-**7.`v-bind:`、`v-model:`**
+### **7.`v-bind:`、`v-model:`**
 
 数据绑定
 
@@ -395,7 +393,7 @@ data: {
 
 [Vue.js双向绑定的实现原理](http://www.cnblogs.com/kidney/p/6052935.html)
 
-**8.`v-on`**
+### **8.`v-on`**
 
 缩写为@，事件绑定，属性值为定义的方法。
 
@@ -405,7 +403,7 @@ data: {
 <p><button @click="number=number-1"> 事件绑定 </button></p>
 ```
 
-**11.`ref`**
+### **9.`ref`**
 
 获取标签的document对象和组件并进行操作。
 
@@ -450,9 +448,9 @@ data: {
 
 ## 五、vue中样式
 
-（1）使用class批量样式
+### **1.使用class批量样式**
 
-* 数组
+**1.1 数组**
 
 ```vue
 <h1 :class="['red', 'thin'，italic]">这是一个邪恶的H1</h1>
@@ -464,33 +462,33 @@ data: {
 data:{italic:"italic"}
 ```
 
-  * 数组中使用三元表达式
+**1.2 数组中使用三元表达式**
 
 ```vue
 <h1 :class="['red', 'thin', isactive?'active':'']">这是一个邪恶的H1</h1>
 ```
 
-  * 数组中嵌套对象
+**1.3 数组中嵌套对象**
 
 ```vue
 <h1 :class="['red', 'thin', {'active': isactive}]">这是一个邪恶的H1</h1>
 ```
 
-  * 直接使用对象
+**1.4 直接使用对象**
 
 ```vue
 <h1 :class="{"red":true, "italic":true, "active":true, "thin":true}">这是一个邪恶的H1</h1>
 ```
 
-（2）使用内联样式
+### **2.使用内联样式**
 
-* 直接在元素上通过 `:style` 的形式，书写样式对象
+**2.1 直接在元素上通过 `:style` 的形式，书写样式对象**
 
 ```vue
 <h1 :style="{color: 'red', 'font-size': '40px'}">这是一个善良的H1</h1>
 ```
 
-- 将样式对象，定义到 `data` 中，并直接引用到 `:style` 中
+**2.2 将样式对象，定义到 `data` 中，并直接引用到 `:style` 中**
 
 在data上定义样式：
 
@@ -506,7 +504,7 @@ data: {
 <h1 :style="h1StyleObj">这是一个善良的H1</h1>
 ```
 
-- 在 `:style` 中通过数组，引用多个 `data` 上的样式对象
+**2.3 在 `:style` 中通过数组，引用多个 `data` 上的样式对象**
 
 在data上定义样式：
 
@@ -527,161 +525,166 @@ data: {
 
 动画能够提高用户的体验，帮助用户更好的理解页面中的功能。
 
-* 使用transition标签，引入animate.css第三方类库
-* 普通标签的三种过渡方式
-  * 过渡类名
+### **1.第三方类库**
 
-    ```vue
-    //HTML结构
-    <div id="app">
-        <input type="button" value="动起来" @click="myAnimate">
-        <!-- 使用 transition 将需要过渡的元素包裹起来 -->
-        <transition name="fade">
-            <div v-show="isshow">动画哦</div>
-        </transition>
-    </div>
-    
-    //VM 实例
-    var vm = new Vue({
-      el: '#app',
-      data: {
-        isshow: false
-      },
-      methods: {
-        myAnimate() {
-          this.isshow = !this.isshow;
-        }
-      }
-    });
-    
-    //定义两组类样式
-    <style>
-        /* 定义进入和离开时候的过渡状态 */
-        .fade-enter-active,
-        .fade-leave-active {
-        transition: all 0.2s ease;
-        position: absolute;
-        }
-    
-        /* 定义进入过渡的开始状态 和 离开过渡的结束状态 */
-        .fade-enter,
-        .fade-leave-to {
-        opacity: 0;
-        transform: translateX(100px);
-        }
-    </style>
-    ```
+使用transition标签，引入animate.css第三方类库
 
-  * 使用第三方 CSS 动画库
+### **2.普通标签的三种过渡方式**
 
-    ```vue
-    //导入动画类库：
-    <link rel="stylesheet" type="text/css" href="./lib/animate.css">
-    
-    //定义 transition 及属性：
-    <transition
-    	enter-active-class="fadeInRight"
-        leave-active-class="fadeOutRight"
-        :duration="{ enter: 500, leave: 800 }">
-      	<div class="animated" v-show="isshow">动画哦</div>
+**2.1 过渡类名**
+
+```vue
+//HTML结构
+<div id="app">
+    <input type="button" value="动起来" @click="myAnimate">
+    <!-- 使用 transition 将需要过渡的元素包裹起来 -->
+    <transition name="fade">
+        <div v-show="isshow">动画哦</div>
     </transition>
-    ```
-    
-  * 使用动画钩子函数
-  
-    ```vue
-    //定义 transition 组件以及三个钩子函数：
-    <div id="app">
-        <input type="button" value="切换动画" @click="isshow = !isshow">
-        <transition
-            @before-enter="beforeEnter"
-            @enter="enter"
-            @after-enter="afterEnter">
-            <div v-if="isshow" class="show">OK</div>
-        </transition>
-    </div>
-    
-    //定义三个 methods 钩子方法：
-    methods: {
-    	// 动画进入之前的回调
-        beforeEnter(el) { 
-        	el.style.transform = 'translateX(500px)';
-        },
-        // 动画进入完成时候的回调
-        enter(el, done) { 
-            el.offsetWidth;
-            el.style.transform = 'translateX(0px)';
-            done();
-        },
-        // 动画进入完成之后的回调
-        afterEnter(el) { 
-        	this.isshow = !this.isshow;
-        }
+</div>
+
+//VM 实例
+var vm = new Vue({
+  el: '#app',
+  data: {
+    isshow: false
+  },
+  methods: {
+    myAnimate() {
+      this.isshow = !this.isshow;
     }
-    
-    //定义动画过渡时长和样式：
-    <style>
-    .show{
-    	transition: all 0.4s ease;
+  }
+});
+
+//定义两组类样式
+<style>
+    /* 定义进入和离开时候的过渡状态 */
+    .fade-enter-active,
+    .fade-leave-active {
+    transition: all 0.2s ease;
+    position: absolute;
     }
-    </style>
-    ```
-  
+
+    /* 定义进入过渡的开始状态 和 离开过渡的结束状态 */
+    .fade-enter,
+    .fade-leave-to {
+    opacity: 0;
+    transform: translateX(100px);
+    }
+</style>
+```
+
+**2.2 使用第三方 CSS 动画库**
+
+```vue
+//导入动画类库：
+<link rel="stylesheet" type="text/css" href="./lib/animate.css">
+
+//定义 transition 及属性：
+<transition
+	enter-active-class="fadeInRight"
+    leave-active-class="fadeOutRight"
+    :duration="{ enter: 500, leave: 800 }">
+  	<div class="animated" v-show="isshow">动画哦</div>
+</transition>
+```
+
+**2.3 使用动画钩子函数**
+
+```vue
+//定义 transition 组件以及三个钩子函数：
+<div id="app">
+    <input type="button" value="切换动画" @click="isshow = !isshow">
+    <transition
+        @before-enter="beforeEnter"
+        @enter="enter"
+        @after-enter="afterEnter">
+        <div v-if="isshow" class="show">OK</div>
+    </transition>
+</div>
+
+//定义三个 methods 钩子方法：
+methods: {
+	// 动画进入之前的回调
+    beforeEnter(el) { 
+    	el.style.transform = 'translateX(500px)';
+    },
+    // 动画进入完成时候的回调
+    enter(el, done) { 
+        el.offsetWidth;
+        el.style.transform = 'translateX(0px)';
+        done();
+    },
+    // 动画进入完成之后的回调
+    afterEnter(el) { 
+    	this.isshow = !this.isshow;
+    }
+}
+
+//定义动画过渡时长和样式：
+<style>
+.show{
+	transition: all 0.4s ease;
+}
+</style>
+```
+
 * **注意：**
   
     * 可以在transition标签中增加name属性自定义进场和出场标签类名称
     * 如果只想实现半场动画（只想进场或者出场），使用js的进场和出场钩子函数
-  
-* v-for 的列表过渡
 
-  ```vue
-  // 定义过渡样式：
-  <style>
-      .list-enter,
-      .list-leave-to {
+### **3.v-for 的列表过渡**
+
+```vue
+// 定义过渡样式：
+<style>
+    .list-enter,
+    .list-leave-to {
         opacity: 0;
         transform: translateY(10px);
-      }
-  
-      .list-enter-active,
-      .list-leave-active {
-        transition: all 0.3s ease;
-      }
-  </style>
-  
-  // 定义DOM结构，其中，需要使用 transition-group 组件把v-for循环的列表包裹起来：
-  <div id="app">
-      <input type="text" v-model="txt" @keyup.enter="add">
-      
-      <transition-group tag="ul" name="list">
-      	<li v-for="(item, i) in list" :key="i">{{item}}</li>
-      </transition-group>
-  </div>
-  
-  // 定义 VM中的结构：
-  var vm = new Vue({
-      el: '#app',
-      data: {
-          txt: '',
-          list: [1, 2, 3, 4]
-      },
-      methods: {
-          add() {
-              this.list.push(this.txt);
-              this.txt = '';
-          }
-      }
-  });
-  ```
+    }
+
+    .list-enter-active,
+    .list-leave-active {
+    	transition: all 0.3s ease;
+    }
+</style>
+
+// 定义DOM结构，其中，需要使用 transition-group 组件把v-for循环的列表包裹起来：
+<div id="app">
+	<input type="text" v-model="txt" @keyup.enter="add">
+
+	<transition-group tag="ul" name="list">
+		<li v-for="(item, i) in list" :key="i">{{item}}</li>
+	</transition-group>
+</div>
+
+// 定义 VM中的结构：
+var vm = new Vue({
+    el: '#app',
+    data: {
+        txt: '',
+        list: [1, 2, 3, 4]
+	},
+    methods: {
+        add() {
+            this.list.push(this.txt);
+            this.txt = '';
+    	}
+	}
+});
+```
 
   * **注意：**
-
+  
     * 实现列表动画的时候被v-for渲染的需要使用transitionGroup包裹
 
     * 如果要为v-for循环创建的元素设置动画，必须为每一个元素设置 ：key
+
     * `<transition-group>` 中 `tag="..."`让`transition`标签在html界面显示成某个标签，默认为`<span>` ，`appear`让列表实现淡入
 
-* 列表的排序过渡
+### **4.列表的排序过渡**
 
   * `<transition-group>` 组件还有一个特殊之处。不仅可以进入和离开动画，还可以改变定位。要使用这个新功能只需了解新增的 `v-move` 特性，它会在元素的改变定位的过程中应用。
 
@@ -698,31 +701,41 @@ data: {
   </style>
   ```
 
+
 [Vue中的动画](https://cn.vuejs.org/v2/guide/transitions.html)
 
 ## 七、事件修饰符和键盘修饰符
 
-* 事件修饰符（可以链式编程）
-  * 事件.stop        可以阻止冒泡( 当一个元素接收到事件的时候 会把他接收到的事件传给自己的父级，一直到window 。注意这里传递的仅仅是事件，并不传递所绑定的事件函数，所以如果父级没有绑定事件函数，就算传递了事件也不会有什么表现，但事件确实传递了，就算子中没有事件，但是对子进行事件操作的时候还是会触发父级的相关事件。）
-  * 事件.prevent  阻止默认事件，也就是每个阻止每个事件的发生。
-  * 事件.capture  添加事件监听器时使用事件捕获模式（由外向里触发事件）。
-  * 事件.self         只当事件在该元素本身（不是子元素冒泡而来的事件）触发时触发回调。
-  * 事件.once       事件函数只触发一次。
+### **1.事件修饰符**
 
-* 修饰键盘敲击某个按键后触发的事件
+vue的事件修饰符可以链式编程
 
-  ```
-  <!--按下enter键后触发事件-->
-  <a href="#" @keyup.enter="method">
-  <!--按下f2键后触发事件-->
-  <a href="#" @keyup.113="method">
-  <!--自定义f2按键修饰符-->
-  <a href="#" @keyup.myF2="method">
-  <script>
-      //自定义全局按键修饰符
-  	Vue.config.keyCodes.myF2=113    
-  </script>
-  ```
+* **事件.stop：**可以阻止冒泡( 当一个元素接收到事件的时候 会把他接收到的事件传给自己的父级，一直到window 。注意这里传递的仅仅是事件，并不传递所绑定的事件函数，所以如果父级没有绑定事件函数，就算传递了事件也不会有什么表现，但事件确实传递了，就算子中没有事件，但是对子进行事件操作的时候还是会触发父级的相关事件。）
+
+* **事件.prevent：**阻止默认事件，也就是每个阻止每个事件的发生。
+
+* **事件.capture：**添加事件监听器时使用事件捕获模式（由外向里触发事件）。
+
+* **事件.self**只当事件在该元素本身（不是子元素冒泡而来的事件）触发时触发回调。
+
+* **事件.once：**事件函数只触发一次。
+
+### **2.键盘修饰符**
+
+修饰键盘敲击某个按键后触发的事件
+
+```
+<!--按下enter键后触发事件-->
+<a href="#" @keyup.enter="method">
+<!--按下f2键后触发事件-->
+<a href="#" @keyup.113="method">
+<!--自定义f2按键修饰符-->
+<a href="#" @keyup.myF2="method">
+<script>
+    //自定义全局按键修饰符
+	Vue.config.keyCodes.myF2=113    
+</script>
+```
 
 [js 里面的键盘事件对应的键码](http://www.cnblogs.com/wuhua1/p/6686237.html)
 
@@ -730,7 +743,7 @@ data: {
 
 过滤器是调用函数前先处理一遍数据再渲染到前端，可以链式编程。
 
-* 全局过滤器
+### **1.全局过滤器**
 
 所有被vue实例挂载的目标都可以使用
 
@@ -755,7 +768,7 @@ data: {
 </div>
 ```
 
-* 私有过滤器
+### **2.私有过滤器**
 
 私有局部过滤器，只能在当前 VM 对象所控制的 View 区域进行使用。
 
@@ -776,11 +789,11 @@ data: {
 </script>
 ```
 
-**注意：**
+* **注意：**当有局部和全局两个名称相同的过滤器时候，会以就近原则进行调用，即：局部过滤器优先于全局过滤器被调用！
 
-当有局部和全局两个名称相同的过滤器时候，会以就近原则进行调用，即：局部过滤器优先于全局过滤器被调用！
+### **3.自带过滤器**
 
-* 自带过滤器
+vue有默认自带的过滤器
 
 ```vue
 <script>	  
@@ -800,7 +813,7 @@ data: {
 
 除了默认设置的核心指令( v-model 和 v-show )，Vue 也允许注册自定义指令。注意，在 Vue2.0 里面，代码复用的主要形式和抽象是组件——然而，有的情况下,你仍然需要对纯 DOM 元素进行底层操作,这时候就会用到自定义指令。
 
-* 全局指令
+### **1.全局指令**
 
 ```vue
 <script>
@@ -814,7 +827,7 @@ data: {
 <input v-focus/>
 ```
 
-* 私有指令
+### **2.私有指令**
 
 ```vue
 <script>
@@ -835,7 +848,11 @@ data: {
 <input v-focus/>
 ```
 
-指令定义函数提供的钩子函数（由系统消息触发的函数）：
+### **3.指令的钩子函数**
+
+**3.1 钩子函数：**
+
+钩子函数是由系统消息触发的函数
 
 * bind: 只调用一次，指令第一次绑定到元素时调用，用这个钩子函数可以定义一个在绑定时执行一次的初始化动作，但是元素还没有重新插入到dom中，和行为相关的操作不会生效。
 * inserted: 只调用一次，被绑定元素插入父节点时调用（父节点存在即可调用，不必存在于 document 中）。
@@ -843,7 +860,7 @@ data: {
 * componentUpdated: 被绑定元素所在模板完成一次更新周期时调用。
 * unbind: 只调用一次， 指令与元素解绑时调用。
 
-钩子函数的参数 ：
+**3.2 钩子函数的参数 ：**
 
 * el: 指令所绑定的元素，可以用来直接操作 DOM 。
 * binding: 一个对象，包含以下属性：
@@ -871,19 +888,31 @@ data: {
 
 ​                                                            **图2 vue生命周期图**
 
-+ beforeCreate：实例刚在内存中被创建出来，此时还没有初始化好 data 和 methods 属性。
-+ created：实例已经在内存中创建OK，此时 data 和 methods 已经创建，此时还没有开始编译模板，已经可以调用data和methods。
-  	+ beforeMount：此时已经完成了模板的编译，但是还没有挂载到页面中，也就是页面中vue指令还不能获取到data和methods。
-  	+ mounted：此时，已经将编译好的模板，挂载到了页面指定的容器中显示。
- - 运行期间的生命周期函数：
-     - beforeUpdate：状态更新之前执行此函数， 此时 data 中的状态值是最新的，但是界面上显示的 数据还是旧的，因为此时还没有开始重新渲染DOM节点
-     - updated：实例更新完毕之后调用此函数，此时 data 中的状态值 和 界面上显示的数据，都已经完成了更新，界面已经被重新渲染好了！
+### **1.创建期间的函数**
 
- - 销毁期间的生命周期函数：
-     - beforeDestroy：实例销毁之前调用。在这一步，实例仍然完全可用。
-     - destroyed：Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。
+**1.1 beforeCreate：**实例刚在内存中被创建出来，此时还没有初始化好 data 和 methods 属性。
+
+**1.2 created：**实例已经在内存中创建OK，此时 data 和 methods 已经创建，此时还没有开始编译模板，已经可以调用data和methods。
+
+**1.3 beforeMount：**此时已经完成了模板的编译，但是还没有挂载到页面中，也就是页面中vue指令还不能获取到data和methods。
+
+**1.4 mounted：**此时，已经将编译好的模板，挂载到了页面指定的容器中显示。
+
+### **2.运行期间的函数：**
+
+**2.1 beforeUpdate：**状态更新之前执行此函数， 此时 data 中的状态值是最新的，但是界面上显示的 数据还是旧的，因为此时还没有开始重新渲染DOM节点
+
+**2.2 updated：**实例更新完毕之后调用此函数，此时 data 中的状态值 和 界面上显示的数据，都已经完成了更新，界面已经被重新渲染好了！
+
+### **3.销毁期间的函数：**
+
+**3.1 beforeDestroy：**实例销毁之前调用。在这一步，实例仍然完全可用。
+
+**3.2 destroyed：**Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。
 
 [ Vue生命周期理解 ](https://segmentfault.com/a/1190000018331135)
+
+### **4.生命周期函数代码示例**
 
 ```vue
 <!DOCTYPE html>
@@ -971,161 +1000,159 @@ data: {
 
 组件的出现，就是为了拆分Vue实例的代码量的，能够让我们以不同的组件，来划分不同的功能模块，将来我们需要什么样的功能，就可以去调用对应的组件即可。
 
-* 自定义组件
-  * 自定义全局组件
-    * 使用 Vue.extend 配合 Vue.component 方法：
+### **1.自定义全局组件**
 
-    ```vue
-    var login = Vue.extend({
-    	template: '<h1>登录</h1>'
-    });
-    
-    //经过测试，下面这种写法也不会报错
+**1.1使用 Vue.extend 配合 Vue.component 方法：**
+
+```vue
+var login = Vue.extend({
+	template: '<h1>登录</h1>'
+});
+
+//经过测试，下面这种写法也不会报错
 /*
-    var login={
-		template: '<h1>登录</h1>',
-    };
-    */
-    
-    Vue.component('login', login);
-    ```
+var login={
+template: '<h1>登录</h1>',
+};
+*/
 
-    * 直接使用 Vue.component 方法：
+Vue.component('login', login);
+```
 
-    ```vue
-    Vue.component('register', {
-    	template: '<h1>注册</h1>'
-    });		
-    ```
-    
-    * 将模板字符串，定义到script标签中：
-    
-    ```vue
-    <template id="tmpl">
-    	<div><a href="#">登录</a> | <a href="#">注册</a></div>
+**1.2 直接使用 Vue.component 方法：**
+
+```vue
+Vue.component('register', {
+	template: '<h1>注册</h1>'
+});		
+```
+
+**1.3 将模板字符串，定义到script标签中：**
+
+```vue
+<template id="tmpl">
+	<div><a href="#">登录</a> | <a href="#">注册</a></div>
 </template>
-    <script>
-  	//同时，需要使用 Vue.component 来定义组件：
-        Vue.component('account', {
-    	template: '#tmpl'
-    });
-    </script>
-    ```
-    
-  * 自定义私有组件
-  
-  ```vue
-  <script>
-    var app = new Vue({
-      el: '#app',
-      data: {
-      },
-    components: {
-        'my-component': {
-        template: "<div>这是一个局部的自定义组件，只能在当前Vue实例中使用</div>",
-        }
+<script>
+//同时，需要使用 Vue.component 来定义组件：
+    Vue.component('account', {
+	template: '#tmpl'
+});
+</script>
+```
+
+### **2.自定义私有组件**
+
+```vue
+<script>
+  var app = new Vue({
+    el: '#app',
+    data: {
+    },
+  components: {
+      'my-component': {
+      template: "<div>这是一个局部的自定义组件，只能在当前Vue实例中使用</div>",
       }
-    })
-  </script>
-  ```
-  
-* 使用方法
-  
-  ```vue
-  <div id="app">
-  	<mycomponent></mycomponent>
-      <my-component></my-component>
-  </div>
-  ```
-
-  * 注意
-
-    * 若组件命名的时候是驼峰的书写形式`myLogin1`,则标签在使用的时候需要写成
-      `<my-login1></my-login1>`。
-    * template中必须只有一个根元，也就是只能写成`<div><h1></h1></div>`，不能写成`<div></div><h1></h1>`。
-
-* 组件中展示数据和响应事件
-
-  ```vue
-  Vue.component("组件名称"，{
-      template:"",
-  	data:function(){
-          return {}
-      }，
-      methods:{
-  		//这个事件是在template中标签产生的事件函数 
-      }
-  }）
-  ```
-
-    * **注意：**
-        * `data`属性必须是一个函数，这是因为如果像Vue实例那样，传入一个对象，由于JS中对象类型的变量实际上保存的是对象的`引用`，所以当多次引用这个组件时，会共享数据，导致一个组件中数据的改变会引起其他组件数据的改变。而使用一个返回对象的函数，每次使用组件都会创建一个新的对象，这样就不会出现共享数据的问题来了。
-      * 当使用 DOM 作为模版时 (例如，将 el 选项挂载到一个已存在的元素上), 你会受到 HTML 的一些限制，因为 Vue 只有在浏览器解析和标准化 HTML 后才能获取模板内容。尤其像这些元素 `<ul>`，`<ol>`，`<table>`，`<select>` 限制了能被它包裹的元素，而一些像 `<option> `这样的元素只能出现在某些其它元素内部。所以使用受限制的元素时会导致一些问题，此时可以用限制元素的`is`属性,例如`<tr is="my-component">`，相当于用tr包裹这个组件。
-* 组件切换
-
-  通过切换组件实现使用不同的组件效果
-
-  ```vue
-  <!--
-  使用Vue的component标签
-  transition的mode属性控制组件切换顺序
-  -->
-  <transition mode="in-out">  
-      <component :is="'组件名称的字符串'或者data中的键">
-  	</component>
-  </transition> 
-  ```
-
-* 父子组件
-
-  components属性相当于vue下的一个子组件，默认无法访问到父组件中的data上的数据和methods中的方法。
-
-  * 传递数据
-
-    ```vue
-    //要先在父组件vue区域中引用子组件
-    <div id="app">
-       <com1 v-bind:子组件自定义的属性名称="父组件data的键">	        </com1>
-    </div>
-    components:{
-    	myCom:{
-    		//引用的时候在template中就可以直接使用子组件自定义的属性名称
-            template:"....",
-            //其中的数据只可读
-            props:['子组件自定义的属性名称',....]
-            }	
     }
-    //2.vue的localStorage数据缓存，父子组件都可以把数据放在里面，进行传递
-  
-    //3.通过 `this.$refs` 来获取组件,可以直接获取组件的data数据和methods方法
-    ```
-  
-  * 传递方法
-  
-    ```vue
-    <div id="app">
-       <com1 v-on:子组件自定义的属性名称="父组件方法的名称"></com1>
-    </div>
-    components:{
-    	myCom:{
-    		//template中的标签绑定方法时，使用子组件定义的方法
-            template:"....",
-            //其中的数据只可读
-            methods:{
-    				方法名称(){
-    					//arg1:子组件自定义的属性名称;
-    					//arg2:若父组件的方法有形参，从第二个参数开始都可以传实参，可以用这个特性让父获取子的data
-    					//使用$emit调用
-    					this.$emit('arg1'，arg2....)  
-    			}
-  			}
+  })
+</script>
+
+//调用方法
+<div id="app">
+	<mycomponent></mycomponent>
+    <my-component></my-component>
+</div>
+```
+
+* 注意
+
+  * 若组件命名的时候是驼峰的书写形式`myLogin1`,则标签在使用的时候需要写成
+    `<my-login1></my-login1>`。
+  * template中必须只有一个根元，也就是只能写成`<div><h1></h1></div>`，不能写成`<div></div><h1></h1>`。
+
+### **3.组件中展示数据和响应事件**
+
+```vue
+Vue.component("组件名称"，{
+    template:"",
+	data:function(){
+        return {}
+    }，
+    methods:{
+		//这个事件是在template中标签产生的事件函数 
+    }
+}）
+```
+
+  * **注意：**
+      * `data`属性必须是一个函数，这是因为如果像Vue实例那样，传入一个对象，由于JS中对象类型的变量实际上保存的是对象的`引用`，所以当多次引用这个组件时，会共享数据，导致一个组件中数据的改变会引起其他组件数据的改变。而使用一个返回对象的函数，每次使用组件都会创建一个新的对象，这样就不会出现共享数据的问题来了。
+    * 当使用 DOM 作为模版时 (例如，将 el 选项挂载到一个已存在的元素上), 你会受到 HTML 的一些限制，因为 Vue 只有在浏览器解析和标准化 HTML 后才能获取模板内容。尤其像这些元素 `<ul>`，`<ol>`，`<table>`，`<select>` 限制了能被它包裹的元素，而一些像 `<option> `这样的元素只能出现在某些其它元素内部。所以使用受限制的元素时会导致一些问题，此时可以用限制元素的`is`属性,例如`<tr is="my-component">`，相当于用tr包裹这个组件。
+
+### **4.组件切换**
+
+通过切换组件实现使用不同的组件效果
+
+```vue
+<!--
+使用Vue的component标签
+transition的mode属性控制组件切换顺序
+-->
+<transition mode="in-out">  
+    <component :is="'组件名称的字符串'或者data中的键">
+	</component>
+</transition> 
+```
+
+### **5.父子组件**
+
+components属性相当于vue下的一个子组件，默认无法访问到父组件中的data上的数据和methods中的方法。
+
+**5.1 传递数据**
+
+```vue
+//要先在父组件vue区域中引用子组件
+<div id="app">
+   <com1 v-bind:子组件自定义的属性名称="父组件data的键">	        </com1>
+</div>
+components:{
+	myCom:{
+		//引用的时候在template中就可以直接使用子组件自定义的属性名称
+        template:"....",
+        //其中的数据只可读
+        props:['子组件自定义的属性名称',....]
         }	
-    }
-    ```
+}
+//2.vue的localStorage数据缓存，父子组件都可以把数据放在里面，进行传递
 
-    * **注意：**
-        * 引用的是`方法名称`，不是函数`方法名称()`，因为子组件只是引用父组件中的方法，若是函数则会获取到返回值。
-        * 会先在data中查找是否有这个键，再去查是否有这个方法。
+//3.通过 `this.$refs` 来获取组件,可以直接获取组件的data数据和methods方法
+```
+
+**5.2 传递方法**
+
+```vue
+<div id="app">
+   <com1 v-on:子组件自定义的属性名称="父组件方法的名称"></com1>
+</div>
+components:{
+	myCom:{
+		//template中的标签绑定方法时，使用子组件定义的方法
+        template:"....",
+        //其中的数据只可读
+        methods:{
+				方法名称(){
+					//arg1:子组件自定义的属性名称;
+					//arg2:若父组件的方法有形参，从第二个参数开始都可以传实参，可以用这个特性让父获取子的data
+					//使用$emit调用
+					this.$emit('arg1'，arg2....)  
+			}
+		}
+    }	
+}
+```
+
+* **注意：**
+    * 引用的是`方法名称`，不是函数`方法名称()`，因为子组件只是引用父组件中的方法，若是函数则会获取到返回值。
+    * 会先在data中查找是否有这个键，再去查是否有这个方法。
 
 
 [深刻理解vue中的组件](https://segmentfault.com/a/1190000010527064)
@@ -1147,180 +1174,178 @@ data: {
 >
 > url 地址中#后面的东西都叫做hash，前端路由实现的是单页面中的不同组件的切换，可以实现不刷新页面的条件下在单页面内跳转。
 
-* 基本结构和语法
+**1.基本结构和语法**
 
-  * 导入 `vue-router.js` 组件类库;
+**1.1 导入 `vue-router.js` 组件类库**
 
-  * 在js中书写基本结构
+**1.2 在js中书写基本结构**
 
-    ```vue
-    <script>
-        //1. 组件的模板对象
-        var login = {
-        	template: '<h1>登录组件</h1>'
-        }
-        var register = {
-        	template: '<h1>注册组件</h1>'
-        }
-        //2. 创建路由对象
-        var routerObj = new VueRouter({
-            // 路由匹配规则 
-            routes: [ 
-            // 每个路由规则，都是一个对象，这个规则对象，身上，有两个必须的属性：`path`表示监听哪个路由链接地址；`component`表示如果路由是前面匹配到的`path`，则展示`component`属性对应的组件。
-            { path: '/login', component: login },
-            { path: '/register', component: register }，
-            // 默认展示指定组件，但是不会将hash值放到url中，所以在url的地址是#/      
-            { path: '/', component: login },
-            // 默认跳转到指定组件并重定向到url地址中，url地址是#/login   
-            { path: '/', redirect: '/login' },
-          ],
-        })
-        //3. 创建 Vue 实例
-        var vm = new Vue({
-          el: '#app',
-          data: {},
-          methods: {},
-          // 将路由规则对象，注册到vue实例上，用来监听URL地址的变化，然后展示对应的组件
-          router: routerObj 
-        });
-    </script>
-    ```
-    
-    
-    注意：
-    
-    * component 的属性值，必须是一个组件的模板对象， 不能是自定义组件的引用名称；
-    * 路由可以监听到url的改变
-    
-  * 使用路由标签
-
-    ```vue
-    <!-- <a href="#/login">登录</a> -->
-    <!-- <a href="#/register">注册</a> -->
-    
-    <!-- 使用 router-link 组件来导航，默认渲染为一个a 标签,效果和上面定义的a标签相同 -->
-    <router-link to="/login">登录</router-link>
-    <router-link to="/register">注册</router-link>
-    
-    <!-- 使用 router-view 组件来显示匹配到的组件 -->
-    <router-view></router-view>
-    ```
-  
-* 路由标签的类名
-
-  `<router-link>`标签在前端默认渲染为`<span>`标签，并且`class="router-link-exat-active router-link-active"`，若想修改该标签默认的类名，则需在router对象属性中配置linkActiveClass，可以对class类名进行样式定义。
-
-  ```vue
-  var routerObj = new VueRouter({
-      // 路由匹配规则 
-    routes: [....],
-      linkActiveClass: 'myactive'
-  })
-  //tag可以修改标签在前端显示成的标签
-  <router-link to="/" tag="div">....</router-link>
-  /*修改后在前端渲染效果
-    <div class="myactive">....</div>
-  */
-  ```
-  
-* 路由的动画效果
-
-  ```vue
-  <transition mode="out-in">
-  	<router-view></router-view>
-  </transition>
-  ```
-
-* 路由传参方式
-
-  在路由规则中定义参数，可以将url地址中hash的参数传给组件使用。
-
-  * 使用query方式传递参数
-
-    不需要修改路由中的path， 通过`this.$route.params`就可以获取到参数。
-
-    ```vue
-    //url: #/login?name=zs&age=20
-    <router-link to="/login?name=zs&age=12">
-    
-    //在组件的属性中都可以使用
-    var register = Vue.extend({
-    	template: '<h1>注册组件 --- {{this.$route.query.name}}</h1>'
+```vue
+<script>
+    //1. 组件的模板对象
+    var login = {
+    	template: '<h1>登录组件</h1>'
+    }
+    var register = {
+    	template: '<h1>注册组件</h1>'
+    }
+    //2. 创建路由对象
+    var routerObj = new VueRouter({
+        // 路由匹配规则 
+        routes: [ 
+        // 每个路由规则，都是一个对象，这个规则对象，身上，有两个必须的属性：`path`表示监听哪个路由链接地址；`component`表示如果路由是前面匹配到的`path`，则展示`component`属性对应的组件。
+        { path: '/login', component: login },
+        { path: '/register', component: register }，
+        // 默认展示指定组件，但是不会将hash值放到url中，所以在url的地址是#/      
+        { path: '/', component: login },
+        // 默认跳转到指定组件并重定向到url地址中，url地址是#/login   
+        { path: '/', redirect: '/login' },
+      ],
+    })
+    //3. 创建 Vue 实例
+    var vm = new Vue({
+      el: '#app',
+      data: {},
+      methods: {},
+      // 将路由规则对象，注册到vue实例上，用来监听URL地址的变化，然后展示对应的组件
+      router: routerObj 
     });
-    ```
+</script>
+```
 
-  * 使用params方式传递参数
+* **注意**：
+  * component 的属性值，必须是一个组件的模板对象， 不能是自定义组件的引用名称；
+  * 路由可以监听到url的改变
 
-    需要修改path进行匹配
+### **2.使用路由标签**
 
-    ```
-    //url: #/login/zs/20
-    <router-link to="/login/zs/12">
-    
-    //在组件的属性中都可以使用
-    var register = Vue.extend({
-    	template: '<h1>注册组件 --- {{this.$route.params.name}}</h1>'
-    });
-    
-    {path:"/login/:name/:age",component:login}
-    ```
+```vue
+<!-- <a href="#/login">登录</a> -->
+<!-- <a href="#/register">注册</a> -->
 
-* 路由的嵌套
+<!-- 使用 router-link 组件来导航，默认渲染为一个a 标签,效果和上面定义的a标签相同 -->
+<router-link to="/login">登录</router-link>
+<router-link to="/register">注册</router-link>
 
-  在组件template中嵌套子路由的组件，使用路由的childrens属性
+<!-- 使用 router-view 组件来显示匹配到的组件 -->
+<router-view></router-view>
+```
 
-  ```vue
-  //两种书写方式
-  
-  //1.在子路由path中，不带`/`
-  <router-link to="/account/login">
-  routes:[
-      {path:"/accout",component:account,
-  		childrens:[
-      		{path:"login",component:login},
-      		.....
-      	],
-      }
-  ]
-  //在前端显示的url会自动拼接为 /account/login
-  
-  2.在子路由path中带`/`
-  <router-link to="/login">
-  routes:[
-  	{path:"/accout",component:account,
-  		childrens:[
-  			{path:"/login",component:login},
-  			.....
-  		]
-  	}
-  ]
-  //带斜杠会以根路由匹配，不会拼接/accout，在前端显示的url为/login
-  ```
+### **3.路由标签的类名**
 
-* 命名视图实现经典布局
+`<router-link>`标签在前端默认渲染为`<span>`标签，并且`class="router-link-exat-active router-link-active"`，若想修改该标签默认的类名，则需在router对象属性中配置linkActiveClass，可以对class类名进行样式定义。
 
-  实现`<frame>`标签一样的的布局
+```vue
+var routerObj = new VueRouter({
+    // 路由匹配规则 
+  routes: [....],
+    linkActiveClass: 'myactive'
+})
+//tag可以修改标签在前端显示成的标签
+<router-link to="/" tag="div">....</router-link>
+/*修改后在前端渲染效果
+  <div class="myactive">....</div>
+*/
+```
 
-  ```vue
-  // 创建路由对象
-  var router = new VueRouter({
-      routes: [
-          {path: '/', components: {
-                  'default': header,
-                  'left': leftBox,
-                  'main': mainBox
-              }
-      	}
-      ]
-  })
-  
-  <router-view></router-view>
-  //实现左右布局，根据name去path中找，并且可以对name加样式
-  <div class="container"> 
-      <router-view name="left"></router-view>
-      <router-view name="main"></router-view>
-  </div>
-  ```
+### 4.路由的动画效果
+
+```vue
+<transition mode="out-in">
+	<router-view></router-view>
+</transition>
+```
+
+### **5.路由传参方式**
+
+在路由规则中定义参数，可以将url地址中hash的参数传给组件使用。
+
+**5.1 使用query方式传递参数**
+
+不需要修改路由中的path， 通过`this.$route.params`就可以获取到参数。
+
+```vue
+//url: #/login?name=zs&age=20
+<router-link to="/login?name=zs&age=12">
+
+//在组件的属性中都可以使用
+var register = Vue.extend({
+	template: '<h1>注册组件 --- {{this.$route.query.name}}</h1>'
+});
+```
+
+**5.2 使用params方式传递参数**
+
+需要修改path进行匹配
+
+```
+//url: #/login/zs/20
+<router-link to="/login/zs/12">
+
+//在组件的属性中都可以使用
+var register = Vue.extend({
+	template: '<h1>注册组件 --- {{this.$route.params.name}}</h1>'
+});
+
+{path:"/login/:name/:age",component:login}
+```
+
+### **6.路由的嵌套**
+
+在组件template中嵌套子路由的组件，使用路由的childrens属性
+
+```vue
+//两种书写方式
+
+//1.在子路由path中，不带`/`
+<router-link to="/account/login">
+routes:[
+    {path:"/accout",component:account,
+		childrens:[
+    		{path:"login",component:login},
+    		.....
+    	],
+    }
+]
+//在前端显示的url会自动拼接为 /account/login
+
+// 2.在子路由path中带`/`
+<router-link to="/login">
+routes:[
+	{path:"/accout",component:account,
+		childrens:[
+			{path:"/login",component:login},
+			.....
+		]
+	}
+]
+//带斜杠会以根路由匹配，不会拼接/accout，在前端显示的url为/login
+```
+
+### **7.命名视图实现经典布局**
+
+实现`<frame>`标签一样的的布局
+
+```vue
+// 创建路由对象
+var router = new VueRouter({
+    routes: [
+        {path: '/', components: {
+                'default': header,
+                'left': leftBox,
+                'main': mainBox
+            }
+    	}
+    ]
+})
+
+<router-view></router-view>
+//实现左右布局，根据name去path中找，并且可以对name加样式
+<div class="container"> 
+    <router-view name="left"></router-view>
+    <router-view name="main"></router-view>
+</div>
+```
 
 [vue之vue router](https://segmentfault.com/a/1190000017532201)
 
@@ -1328,28 +1353,30 @@ data: {
 
 [vue.js路由vue-router（二）——路由进阶](https://segmentfault.com/a/1190000009425705)
 
+[详解Vue的钩子函数](https://www.jb51.net/article/144337.htm)
+
 ## 十三、vue-resource
 
 引入vue-resource文档，实现get,post,jsonp请求 
 
-* 需要导入vue-resource.js
+### **1.导入js库**
 
-* 在函数中书写
+需要导入vue-resource.js
 
-  ```vue
-  this.$http.get（url,{json格式的数据}，后面都是可选项....）.then(
-      function(result){
-      	//成功返回的函数
-      },
-      function(){
-      	//报错返回的函数
-      }
-  )
-  ```
+### **2.基本结构**
 
-  * **注意：**
+```vue
+this.$http.get（url,{json格式的数据}，后面都是可选项....）.then(
+    function(result){
+    	//成功返回的函数
+    },
+    function(){
+    	//报错返回的函数
+    }
+)
+```
 
-    手动发起的post请求默认没有表单格式，所以有的服务器处理不了，需要设置可选项为` emulateJSON：true `设置提交的内容类型为普通表单数据格式。
+* **注意：**手动发起的post请求默认没有表单格式，所以有的服务器处理不了，需要设置可选项为` emulateJSON：true `设置提交的内容类型为普通表单数据格式。
 
 >jsonp
 >
@@ -1357,10 +1384,11 @@ data: {
 >
 >可以通过动态创建script标签的形式，把script标签的src属性，指向数据接口的地址，因为script标签不存在跨域限制，这种数据获取方式，称作JSONP（注意：根据JSONP的实现原理，知晓JSONP只支持Get请求）。
 
-```vue
-//基于node实现JSONP
+### **3.基于node实现JSONP**
 
-//客户端
+**3.1 客户端**
+
+```vue
 <script>
     function showInfo123(data) {
     	console.log(data)
@@ -1369,8 +1397,9 @@ data: {
 <script src="http://127.0.0.1:3000/getscript?callback=showInfo123"></script>
 ```
 
+**3.2 服务器端**
+
 ```node
-//服务器端
 // 导入 http 内置模块
 const http = require('http')
 // 这个核心模块，能够帮我们解析 URL地址，从而拿到  pathname  query 
@@ -1407,28 +1436,27 @@ server.listen(3000, function () {
 })
 ```
 
-* 全局配置数据接口的跟域名（url的根域名）
+### **4.全局配置数据接口的跟域名**
 
-  可以省略不写根域名，会自动拼接再url参数前面
+配置url的根域名，可以省略不写根域名，会自动拼接再url参数前面。
 
-  ```js
-  Vue.http.options.root='url的根域名'
-  
-  this.$http.get("后面的域名")
-  
-  //拼接成 `url的根域名/后面的域名`
-  ```
-  
-  * **注意：**
-    * 使用时注意请求时url参数不带斜线`/`才会拼接根域名
+```js
+Vue.http.options.root='url的根域名'
 
-* 全局配置`emulateJSON`
-  
-  配置了全局`emulateJSON`后，请求参数中就默认加了这个，不用再写。
-  
-  ```js
-  Vue.http.options.emulateJSON=true
-  ```
+this.$http.get("后面的域名")
+
+//拼接成 `url的根域名/后面的域名`
+```
+
+* **注意：**使用时注意请求时url参数不带斜线`/`才会拼接根域名
+
+### **5.全局配置`emulateJSON**`
+
+配置了全局`emulateJSON`后，请求参数中就默认加了这个，不用再写。
+
+```js
+Vue.http.options.emulateJSON=true
+```
 
 [vue前后台数据交互vue-resource文档](https://www.cnblogs.com/yuzhengbo/p/6714355.html)
 
@@ -1458,11 +1486,11 @@ npm 的全称是 Node Package Manager 是 JavaScript 世界的包管理工具,�
 
 ## 二、webpack的概念
 
-**1.webpack是什么**
+### **1.webpack是什么**
 
 webpack 是前端的一个项目构建工具，它是基于 Node.js 开发出来的一个前端工具。
 
-**2.为什么使用webpack**
+### **2.为什么使用webpack**
 
 * 传统的网页中引入的静态资源（.js，.css，.jpg等文件），导致网页加载速度慢， 因为我们要发起很多的二次请求；并且要处理错综复杂的依赖关系。
 
@@ -1476,7 +1504,7 @@ webpack 是前端的一个项目构建工具，它是基于 Node.js 开发出来
 
 ## 三、webpack的使用
 
-**1.webpack的安装配置**
+### **1.webpack的安装配置**
 
 * 安装node.js，在控制台使用`node -v`，`npm -v`，查看是否安装成功。
 
@@ -1490,7 +1518,7 @@ webpack 是前端的一个项目构建工具，它是基于 Node.js 开发出来
 
 [宇宙最强vscode教程（基础篇）](https://segmentfault.com/a/1190000017949680)
 
-**2.项目的基本目录结构**
+### **2.项目的基本目录结构**
 
 > dist --发布的产品级的内容
 >
@@ -1508,102 +1536,103 @@ webpack 是前端的一个项目构建工具，它是基于 Node.js 开发出来
 > package.json --初始化npm时生成的文件
 > webpack.config.js --配置文件，通过node的模块操作，向外暴露一个配置对象
 
-**3.webpack打包项目**
+### **3.webpack打包项目**
 
 由于 ES6的代码太高级，浏览器解析不了，所以执行到`main.js`文件下`import $ from 'jquery'`这一行会报错。
 
 **两种解决方法：**
 
-* 使用webpack命令打包main.js文件
+**3.1 使用webpack命令打包main.js文件**
 
-  ```js
-  // 1.先运行`webpack 入口文件路径 输出文件路径`对`main.js`进行处理，webpack默认会把这种高级的语法转换为低级的浏览器能识别的语法
-  webpack src/js/main.js dist/bundle.js
-  
-  // 2.然后在html中引用bundle.js文件
-  <script src = "../dist/bundle.js" ></script>
-  ```
-* 使用webpack的配置文件简化打包时候的命令
+```js
+// 1.先运行`webpack 入口文件路径 输出文件路径`对`main.js`进行处理，webpack默认会把这种高级的语法转换为低级的浏览器能识别的语法
+webpack src/js/main.js dist/bundle.js
 
-  ```js
-  // 1. 在项目根目录中新建`webpack.config.js`
-  
-  // 2. 由于运行webpack命令的时候，webpack需要指定入口文件和输出文件的路径，所以，我们需要在`webpack.config.js`中配置这两个路径
-  
-  // webpack.config.js文件下
-  // 导入处理路径的模块
-  var path = require('path');
-  
-  // 导出一个配置对象，将来webpack在启动的时候，会默认来查找webpack.config.js，并读取这个文件中导出的配置对象，来进行打包处理
-  module.exports = {
-  	// 项目入口文件
-      entry: path.resolve(__dirname, 'src/js/main.js'), 
-      // 配置输出选项
-      output: { 
-      	// 配置输出的路径
-          path: path.resolve(__dirname, 'dist'), 
-          // 配置输出的文件名
-          filename: 'bundle.js' 
-      }
-  }
-  
-  // 3.使用的时候只需要使用`webpack`命令
-  ```
+// 2.然后在html中引用bundle.js文件
+<script src = "../dist/bundle.js" ></script>
+```
 
-**4.webpack-dev-server热部署**
+**3.2 使用webpack的配置文件简化打包时候的命令**
+
+```js
+// 1. 在项目根目录中新建`webpack.config.js`
+
+// 2. 由于运行webpack命令的时候，webpack需要指定入口文件和输出文件的路径，所以，我们需要在`webpack.config.js`中配置这两个路径
+
+// webpack.config.js文件下
+// 导入处理路径的模块
+var path = require('path');
+
+// 导出一个配置对象，将来webpack在启动的时候，会默认来查找webpack.config.js，并读取这个文件中导出的配置对象，来进行打包处理
+module.exports = {
+	// 项目入口文件
+    entry: path.resolve(__dirname, 'src/js/main.js'), 
+    // 配置输出选项
+    output: { 
+    	// 配置输出的路径
+        path: path.resolve(__dirname, 'dist'), 
+        // 配置输出的文件名
+        filename: 'bundle.js' 
+    }
+}
+
+// 3.使用的时候只需要使用`webpack`命令
+```
+
+### **4.webpack-dev-server热部署**
 
 由于每次重新修改代码之后，都需要手动运行webpack打包的命令，比较麻烦，所以使用webpack-dev-server来实现代码实时打包编译，当修改代码之后，会自动进行打包构建。
 
 **两种热部署配置方式：**
 
-* 第一种：
+**4.1 第一种：**
 
-  ```
-  // 1. 运行`npm i webpack-dev-server -D`把这个工具安装到项目的本地开发依赖
-  
-  // 2. 由于我们是在项目中本地安装的webpack-dev-server，所以无法把它当作脚本命令在powershell终端中直接运行；只有那些安装到全局（命令中带有`-g`）的工具，才能在终端中正常执行。
-  //在package.json文件中寻找`scripts`节点，新增指令`"dev": "webpack-dev-server"`。
-  
-  // 3.运行一次指令 `npm run dev`，可以使项目是以本地服务器加端口号的形式运行，而不是以文件（view in brower）的形式。
-  
-  // 4.访问webpack-dev-server启动的`http://localhost:8080/`网站，发现是一个文件夹的面板，需要点击到src目录下，才能打开我们的index首页，此时引用不到bundle.js文件，需要修改index.html中script的src属性为:`<script src="../bundle.js"></script>`
-  
-  // 5.为了能在访问`http://localhost:8080/`的时候直接访问到index首页，可以使用`"dev": "webpack-dev-server --contentBase src"`指令来修改dev指令，指定启动的根目录。
-  ```
+```
+// 1. 运行`npm i webpack-dev-server -D`把这个工具安装到项目的本地开发依赖
 
-  * **注意：**
-    * webpack-dev-server 这个工具，如果想要正常运行，要求在本地项目中必须安装 webpack（虽然安装了全局webpack，还是要安装本地的）。
-    * webpack-dev-server 帮我们打包生成的 bundle.js 文件，并没有存放到 实际的物理磁盘上，而是直接托管到 电脑的内存中，所以我们在项目根目录中，根本找不到这个打包好的bundle.js（我们可以认为webpack-dev-server 把打包好的 文件，以一种虚拟的形式托管到了项目的根目录中，虽然我们看不到它，但是可以认为， 和 dist  src   node_modules  平级，有一个看不见的文件，叫做 bundle.js）。把bundle.js放在内存中的好处是：由于需要实时打包编译，所以放在内存中读取速度会非常快。
+// 2. 由于我们是在项目中本地安装的webpack-dev-server，所以无法把它当作脚本命令在powershell终端中直接运行；只有那些安装到全局（命令中带有`-g`）的工具，才能在终端中正常执行。
+//在package.json文件中寻找`scripts`节点，新增指令`"dev": "webpack-dev-server"`。
 
-* 第二种：
+// 3.运行一次指令 `npm run dev`，可以使项目是以本地服务器加端口号的形式运行，而不是以文件（view in brower）的形式。
 
-  ```
-  // 1. 运行`npm i webpack-dev-server -D`把这个工具安装到项目的本地开发依赖
-  
-  // 2.在webpack.config.js文件下
-  
-  const path=require('path')
-  const webpack=require('webpack')
-  
-  module.exports={
-  	entry:....,
-  	output:....,
-  	devServer:{
-  		open:ture.
-  		port:3000,
-  		contentBase:'src',
-  		hot:ture
-  	},
-  	plugins:[
-  		new webpack.HotModuleReplacementPlugin()
-  	]
-  }
-  
-  // 3.index.html中script的src属性为:
-  `<script src="../bundle.js"></script>`
-  ```
+// 4.访问webpack-dev-server启动的`http://localhost:8080/`网站，发现是一个文件夹的面板，需要点击到src目录下，才能打开我们的index首页，此时引用不到bundle.js文件，需要修改index.html中script的src属性为:`<script src="../bundle.js"></script>`
 
-**5.webpack-dev-server的常用命令参数**
+// 5.为了能在访问`http://localhost:8080/`的时候直接访问到index首页，可以使用`"dev": "webpack-dev-server --contentBase src"`指令来修改dev指令，指定启动的根目录。
+```
+
+* **注意：**
+  * webpack-dev-server 这个工具，如果想要正常运行，要求在本地项目中必须安装 webpack（虽然安装了全局webpack，还是要安装本地的）。
+  * webpack-dev-server 帮我们打包生成的 bundle.js 文件，并没有存放到 实际的物理磁盘上，而是直接托管到 电脑的内存中，所以我们在项目根目录中，根本找不到这个打包好的bundle.js（我们可以认为webpack-dev-server 把打包好的 文件，以一种虚拟的形式托管到了项目的根目录中，虽然我们看不到它，但是可以认为， 和 dist  src   node_modules  平级，有一个看不见的文件，叫做 bundle.js）。把bundle.js放在内存中的好处是：由于需要实时打包编译，所以放在内存中读取速度会非常快。
+
+**4.2 第二种：**
+
+```
+// 1. 运行`npm i webpack-dev-server -D`把这个工具安装到项目的本地开发依赖
+
+// 2.在webpack.config.js文件下
+
+const path=require('path')
+const webpack=require('webpack')
+
+module.exports={
+	entry:....,
+	output:....,
+	devServer:{
+		open:ture.
+		port:3000,
+		contentBase:'src',
+		hot:ture
+	},
+	plugins:[
+		new webpack.HotModuleReplacementPlugin()
+	]
+}
+
+// 3.index.html中script的src属性为:
+`<script src="../bundle.js"></script>`
+```
+
+### **5.webpack-dev-server的常用命令参数**
 
  ```
 "dev": "webpack-dev-server --open --port 3000 --contenBase src --hot"`
@@ -1614,7 +1643,7 @@ webpack 是前端的一个项目构建工具，它是基于 Node.js 开发出来
  ```
 [webpack-dev-server常用参数配置选项](https://www.9xkd.com/course/2799418208.html)
 
-**6.html-webpack-plugin插件配置启动页面**
+### **6.html-webpack-plugin插件配置启动页面**
 
 由于使用`--contentBase`指令的过程比较繁琐，需要指定启动的目录，同时还需要修改index.html中script标签的src属性，所以推荐大家使用`html-webpack-plugin`插件配置启动页面.
 
@@ -1651,7 +1680,7 @@ module.exports = {
 // 4.可以将硬盘上的index.html中script标签注释掉，因为`html-webpack-plugin`插件会自动把bundle.js注入到内存中的index.html页面中，系统都是默认先进入内存的index.html，若生成的内存中的html文件不是index.html这个名字，则会先进入实际的index.html页面。
 ```
 
-**7.webpack打包css文件**
+### **7.webpack打包css文件**
 
 webpack只可以打包js的文件，想要打包css文件需要安装第三方loader加载器
 
@@ -1668,13 +1697,12 @@ module: {
         ]
 }
 ```
-**注意：**
+* **注意：**
+  * test中使用正则表达式匹配符合规则的css文件。
 
-* test中使用正则表达式匹配符合规则的css文件。
+  * `use`表示使用哪些模块来处理`test`所匹配到的文件；`use`中相关loader模块的调用顺序是从后向前调用的。
 
-* `use`表示使用哪些模块来处理`test`所匹配到的文件；`use`中相关loader模块的调用顺序是从后向前调用的。
-
-**8.webpack打包less文件**
+### **8.webpack打包less文件**
 
 ```
 // 1.运行`cnpm i less-loader less -D`
@@ -1682,7 +1710,7 @@ module: {
 // 2.修改`webpack.config.js`这个配置文件：
 { test: /\.less$/, use: ['style-loader', 'css-loader', 'less-loader'] },
 ```
-**9.webpack打包sass文件**
+### **9.webpack打包sass文件**
 
 ```
 // 1.运行`cnpm i sass-loader node-sass --save-dev`
@@ -1690,7 +1718,7 @@ module: {
 // 2.在`webpack.config.js`中添加处理sass文件的loader模块：
 { test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader'] }
 ```
-**10.webpack处理css中的路径**
+### **10.webpack处理css中的路径**
 
 默认webpack无法处理css中文字或图片的地址，需要下载loader
 
@@ -1706,7 +1734,7 @@ module: {
 // 4.匹配符合规则的字体文件
 {test:/\.(ttf|svg|eot)/,use:'url-loader'}
 ```
-**11.webpack解析.vue文件的配置**
+### **11.webpack解析.vue文件的配置**
 
 默认webpack无法打包.vue文件，需要安装相关的loader才可以让js文件引用vue文件，并且通过render将组件渲染到页面中。
 
@@ -1772,30 +1800,33 @@ var vm = new Vue({
 
 ```
 
-* **注意**
+* **注意：**
+
+  * 如果想快捷开发的话可以学习vue脚手架
 
   * 当vue-loader大于15以上的版本，需要使用VueLoaderPlugin伴生函数
+  
 
-    ```
-    //在webpack.config/js中
-    
-    const VueLoaderPlugin = require('vue-loader/lib/plugin')
-    
-    //在plugins属性中添加伴生函数
-    {
-        plugins:[
-            new VueLoaderPlugin()
-        ]
-    }
-    ```
+```
+//在webpack.config/js中
 
-  * 另外如果想快捷开发的话可以学习vue脚手架
-  
-    [什么是Vue-CLI?](https://blog.csdn.net/weixin_40408910/article/details/81279305)
-  
-    [Vue 爬坑之路（一）—— 使用 vue-cli 搭建项目](https://blog.csdn.net/WiseWrong/article/details/55212684)
-  
-    [Vue2全家桶之一：vue-cli（vue脚手架）超详细教程](https://www.jianshu.com/p/32beaca25c0d)
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+
+//在plugins属性中添加伴生函数
+{
+    plugins:[
+        new VueLoaderPlugin()
+    ]
+}
+```
+
+
+[什么是Vue-CLI?](https://blog.csdn.net/weixin_40408910/article/details/81279305)
+
+[Vue 爬坑之路（一）—— 使用 vue-cli 搭建项目](https://blog.csdn.net/WiseWrong/article/details/55212684)
+
+[Vue2全家桶之一：vue-cli（vue脚手架）超详细教程](https://www.jianshu.com/p/32beaca25c0d)
+    
 
 ## 四、babel的使用
 
@@ -1815,11 +1846,10 @@ var vm = new Vue({
     "plugins":["transform-runtime"]
 }
 ```
-**注意：**
-
-* 一定要把node_modules文件夹添加到排除项，在转换的时候排除node_modules目录，让loader只转换开发者写的js文件，不要转换别人写好的js，因为这样会消耗cpu，同时使打包速度变慢。
-* `.babelrc`文件需要符合json规范：不能写注释，字符串必须要用双引号。
-* 语法插件`babel-preset-es2015`可以替换为`babel-preset-env`，它包含了所有的ES相关的语法
+* **注意：**
+  * 一定要把node_modules文件夹添加到排除项，在转换的时候排除node_modules目录，让loader只转换开发者写的js文件，不要转换别人写好的js，因为这样会消耗cpu，同时使打包速度变慢。
+  * `.babelrc`文件需要符合json规范：不能写注释，字符串必须要用双引号。
+  * 语法插件`babel-preset-es2015`可以替换为`babel-preset-env`，它包含了所有的ES相关的语法
 
 [babel-preset-env：你需要的唯一Babel插件](https://segmentfault.com/p/1210000008466178)
 
@@ -1832,139 +1862,193 @@ var vm = new Vue({
 三种解决方法：
 
 * 在node_modules中根据包名找到的Vue文件夹下的package.json文件，查找main属性，修改配置，使用自己想要使用的vue依赖文件。
-
 * 修改导入路径为`import Vue from '../node_modules/vue/dist/vue.js'`
-
 * 修改webpack.config.js文件，
 
-  ```vue
-  //在main.js中
-  `import Vue from vue`
-  
-  // 在webpack.config.js中添加属性resolve 
-  resolve : {
-  	alias : {
-  		//设置vue导入的包的路径
-  		"vue" : "vue/dist/vue.js"
-  	}
-  }
-  ```
+```
+//在main.js中
+`import Vue from vue`
+
+// 在webpack.config.js中添加属性resolve 
+resolve : {
+	alias : {
+		//设置vue导入的包的路径
+		"vue" : "vue/dist/vue.js"
+	}
+}
+```
 
 ## 六、在.vue文件中使用组件、路由和样式
 
-* 组件
+### **1.组件**
 
-  在.vue的组件中，通过 script 标签来定义组件的行为，需要使用ES6中提供的export default方式，导出一个vue实例对象。
+在.vue的组件中，通过 script 标签来定义组件的行为，需要使用ES6中提供的export default方式，导出一个vue实例对象。
 
-  ```vue
-  //1.模板中可以使用export default和export中定义的数据和行为
-  <template>
-      <div>
-      	<h1>这是APP组件 - {{name}}</h1>
-      </div>
-  </template>
+```vue
+//1.模板中可以使用export default和export中定义的数据和行为
+<template>
+    <div>
+    	<h1>这是APP组件 - {{name}}</h1>
+    </div>
+</template>
+
+var info = {
+	name : "zs",
+	age : 20
+}
+
+//2.export用于对外输出本模块（一个文件可以理解为一个模块）变量的接口，其他JS文件就可以通过import命令加载这个模块（文件）
+export default info
+
+export export1={name : "export1"}
+export export2={name : "export2"}
+
+//3.在main.js中导入
+
+//导入整个组件
+import test from './test.js'
+//导入在.vue中导出的成员，as是为导出的成员取别名
+import info,{export1 as newExport,export2} from './test.js'
+console.log(test)
+console.log(info)
+```
+
+* **注意：**
+  * 在一个模块中，只允许export default 向外暴露一次，export可以暴露多次。
+  * 可以同时使用export default和export 向外暴露成员。
+  * export只可以使用`{}`（按需导出）的形式导出。
+
+[export ，export default 和 import 区别 以及用法](https://www.cnblogs.com/xiaotanke/p/7448383.html)
+
+### **2.路由**
+
+**2.1 在vue组件页面中，集成vue-router路由模块**
+
+```vue
+//1. main.js中导入路由模块：
+import VueRouter from 'vue-router'
+//安装路由模块：
+Vue.use(VueRouter);
+//导入需要展示的组件:
+import login from './components/account/login.vue'
+import register from './components/account/register.vue'
+
+//4. 创建路由对象，这里也可以使用子路由，不过要导入子路由组件:
+var router = new VueRouter({
+  routes: [
+    { path: '/', redirect: '/login' },
+    { path: '/login', component: login },
+    { path: '/register', component: register }
+  ]
+});
+
+//5. 将路由对象，挂载到 Vue 实例上:
+var vm = new Vue({
+	el: '#app',
+	//这里使用了render函数会覆盖掉指定的容器，需要将路由的标签写在app组件中：
+    render(c) {
+		return c(App);
+	},
+	router // 将路由对象，挂载到 Vue 实例上
+});
+
+//6. 改造App.vue组件，在 template 中，添加`router-link`和`router-view`：
+    <router-link to="/login">登录</router-link>
+    <router-link to="/register">注册</router-link>
+    <router-view></router-view>
+```
+
+**2.2 抽离路由模块**
+
+```vue
+//另建一个router.js，将main.js中的路由模块抽离出来
+// 1.导入路由模块：
+import VueRouter from 'vue-router'
+Vue.use(VueRouter);
+import login from './components/account/login.vue'
+import register from './components/account/register.vue'
+
+// 创建路由对象，这里也可以使用子路由，不过要导入子路由组件:
+var router = new VueRouter({
+  routes: [
+    { path: '/', redirect: '/login' },
+    { path: '/login', component: login },
+    { path: '/register', component: register }
+  ]
+});
+
+export default router
+
+// 2.在main.js中导入
+import router from "./router.js"
+```
+
+### **3.样式**
+
+普通的style标签只支持普通的css样式，想要支持scss或less，需要设置lang；scope表示样式只在组件内生效，不是全局生效，只要style标签实在.vue组件中定义的，那么推荐使用。
+
+```vue
+//在组件文件中
+//scoped是通过css样式的属性选择器实现的
+<style lang="less" scoped>
+...
+<style>
+```
+
+# Vue.js的扩展学习
+
+## 一、箭头函数
+
+* 箭头函数表达式的语法比函数表达式更简洁，并且没有自己的this，arguments，super 和 new.target。这些函数表达式更适用于那些本来需要匿名函数的地方，并且它们不能用作构造函数。
+
+  ```
+  (参数1, 参数2, …, 参数N) => { 函数声明 }
   
-  var info = {
-  	name : "zs",
-  	age : 20
+  //相当于：(参数1, 参数2, …, 参数N) =>{ return 表达式; }
+  (参数1, 参数2, …, 参数N) => 表达式（单一）
+  
+  // 没有参数的函数应该写成一对圆括号。
+  () => {函数声明}
+  ```
+
+* 箭头函数不会创建自己的this,它只会从自己的作用域链的上一层继承this（这也是箭头函数最常用的用法）。
+
+  ```js
+  function Person(){
+    this.age = 0;
+  
+    setInterval(() => {
+  	// 这个函数里面的this是person函数中的this
+      this.age++; 
+    }, 1000);
   }
   
-  //2.export用于对外输出本模块（一个文件可以理解为一个模块）变量的接口，其他JS文件就可以通过import命令加载这个模块（文件）
-  export default info
-  
-  export export1={name : "export1"}
-  export export2={name : "export2"}
-  
-  //3.在main.js中导入
-  
-  //导入整个组件
-  import test from './test.js'
-  //导入在.vue中导出的成员，as是为导出的成员取别名
-  import info,{export1 as newExport,export2} from './test.js'
-  console.log(test)
-  console.log(info)
+  var p = new Person();
   ```
 
-  * **注意：**
-    * 在一个模块中，只允许export default 向外暴露一次，export可以暴露多次。
-    * 可以同时使用export default和export 向外暴露成员。
-    * export只可以使用`{}`（按需导出）的形式导出。
+[箭头函数](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
 
-  [export ，export default 和 import 区别 以及用法](https://www.cnblogs.com/xiaotanke/p/7448383.html)
+## 二、回调
 
-* 路由
+回调函数，也被称为高阶函数，是一个函数被作为参数传递给另一个函数，并在另一个函数中被调用。
 
-  * 在vue组件页面中，集成vue-router路由模块
-  
-    ```vue
-    //1. main.js中导入路由模块：
-    import VueRouter from 'vue-router'
-    //安装路由模块：
-    Vue.use(VueRouter);
-    //导入需要展示的组件:
-    import login from './components/account/login.vue'
-    import register from './components/account/register.vue'
-    
-    //4. 创建路由对象，这里也可以使用子路由，不过要导入子路由组件:
-    var router = new VueRouter({
-      routes: [
-        { path: '/', redirect: '/login' },
-        { path: '/login', component: login },
-        { path: '/register', component: register }
-      ]
-    });
-    
-    //5. 将路由对象，挂载到 Vue 实例上:
-    var vm = new Vue({
-    	el: '#app',
-    	//这里使用了render函数会覆盖掉指定的容器，需要将路由的标签写在app组件中：
-        render(c) {
-    		return c(App);
-    	},
-    	router // 将路由对象，挂载到 Vue 实例上
-    });
-    
-    //6. 改造App.vue组件，在 template 中，添加`router-link`和`router-view`：
-        <router-link to="/login">登录</router-link>
-        <router-link to="/register">注册</router-link>
-        <router-view></router-view>
-    ```
-  
-  * 抽离路由模块
-  
-    ```vue
-    //另建一个router.js，将main.js中的路由模块抽离出来
-    // 1.导入路由模块：
-    import VueRouter from 'vue-router'
-    Vue.use(VueRouter);
-    import login from './components/account/login.vue'
-    import register from './components/account/register.vue'
-    
-    // 创建路由对象，这里也可以使用子路由，不过要导入子路由组件:
-    var router = new VueRouter({
-      routes: [
-        { path: '/', redirect: '/login' },
-        { path: '/login', component: login },
-        { path: '/register', component: register }
-      ]
-    });
-    
-    export default router
-    
-    // 2.在main.js中导入
-    import router from "./router.js"
-    ```
+> 在Javascript中，函数是第一类对象，这意味着函数可以像对象一样按照第一类管理被使用。既然函数实际上是对象：它们能被“存储”在变量中，能作为函数参数被传递，能在函数中被创建，能从函数中返回。
 
-* 样式
+```js
+function my() {
+	alert("我是回调函数!");
+}
+//my函数是作为一个参数被回调(调用或者执行),
+$('#btn').click(my);
+```
 
-  ```vue
-  //普通的style标签只支持普通的css样式，想要支持scss或less，需要设置lang；scope表示样式只在组件内生效，不是全局生效，只要style标签实在.vue组件中定义的，那么推荐使用。
-  <style lang="less" scope>
-  	...
-  <style>
-  ```
 
-  
+
+## 三、Promise
+
+Promise 是一个对象，它代表了一个异步操作的最终完成或者失败。
+
+
 
 
 
