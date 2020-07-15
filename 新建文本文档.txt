@@ -1,0 +1,11 @@
+需要正常的安装
+
+记得安装css 和 scss loader，注意scss的版本，
+
+要引用全局的scss 记得安装
+
+sass-resources-loader（npm i sass-resources-loader --save-dev） 
+
+还要记得
+
+css要去除node_modules的编译
