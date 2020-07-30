@@ -2090,6 +2090,7 @@ public class MyAspectXml {
 		<aop:before method="log" pointcut="execution(public * com.itheima.demo3.CustomerDaoImpl.save(..))"/>
 	</aop:aspect>
 </aop:config>
+
 ```
 
 （8）完成测试
@@ -2132,7 +2133,7 @@ public class Demo3 {
 
 * 前置通知
   * 在目标类的方法执行之前执行。
-  * 配置文件信息：<aop:after method="before" pointcut-ref="myPointcut3"/>
+  * 配置文件信息：<aop:before method="before" pointcut-ref="myPointcut3"/>
   * 应用：可以对方法的参数来做校验
 
 * 最终通知
