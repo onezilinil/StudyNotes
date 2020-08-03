@@ -2074,6 +2074,7 @@ public class MyAspectXml {
 		System.out.println("记录日志...");
 	}
 }
+```
 
 （6）在配置文件中定义切面类
 
@@ -2082,7 +2083,7 @@ public class MyAspectXml {
 ```
 
 （7）在配置文件中完成aop的配置
-```
+```java
 <aop:config>
 	<!-- 引入切面类 -->
 	<aop:aspect ref="myAspectXml">
@@ -2095,7 +2096,7 @@ public class MyAspectXml {
 
 （8）完成测试
 
-​```java
+```java
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext.xml")
 public class Demo3 {
