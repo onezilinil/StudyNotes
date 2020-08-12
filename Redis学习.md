@@ -20,7 +20,7 @@ NoSQL数据库的产生就是为了解决大规模数据集合多重数据种类
 
 一些主流的NOSQL产品：
 
-![主流的NoSQL产品](F:\学习笔记\Redis\主流的NoSQL产品.png) 
+![主流的NoSQL产品](.\Redis\主流的NoSQL产品.png) 
 
 NoSQL数据库的四大分类如下：
 
@@ -103,7 +103,7 @@ cp /usr/local/redis-3.0.0/redis.conf  /usr/local/redis/bin`
 
 * **安装目录bin下的文件列表：**
 
-![bin下的文件列表](F:\学习笔记\Redis\bin下的文件列表.png) 
+![bin下的文件列表](.\Redis\bin下的文件列表.png) 
 
 文件说明：
 
@@ -122,7 +122,7 @@ cp /usr/local/redis-3.0.0/redis.conf  /usr/local/redis/bin`
 
 直接运行bin/redis-server将以前端模式启动，前端模式启动的缺点是ssh命令窗口关闭则redis-server程序结束，不推荐使用此方法。如下图：
 
-![前端模式启动](F:\学习笔记\Redis\前端模式启动.png) 
+![前端模式启动](.\Redis\前端模式启动.png) 
 
 **3.2 后端模式启动**
 
@@ -138,11 +138,11 @@ cd /usr/local/redis
 
 * redis默认使用6379端口。
 
-![后端模式启动](F:\学习笔记\Redis\后端模式启动.png) 
+![后端模式启动](.\Redis\后端模式启动.png) 
 
 也可更改redis.conf文件，修改端口号：
 
-![后端模式启动2](F:\学习笔记\Redis\后端模式启动2.png) 
+![后端模式启动2](.\Redis\后端模式启动2.png) 
 
 **3.3 启动多个redis进程**
 
@@ -194,7 +194,7 @@ cd /usr/local/redis
 
 **5.1.1** 执行bin/redis-cli连接redis服务端：
 
-​	![连接redis服务端](F:\学习笔记\Redis\连接redis服务端.png)
+​	![连接redis服务端](.\Redis\连接redis服务端.png)
 
 **5.1.2** 指定连接redis服务的ip和端口：
 
@@ -230,7 +230,7 @@ del name
 
 **6.1 redis实例**
 
-一个redis进程就是一个redis实例，一台服务器可以同时有多个redis实例，不同的redis实例提供不同的服务端口对外提供服务，每个redis实例之间互相影响。每个redis实例都包括自己的数据库，数据库中可以存储自己的数据。 
+一个redis进程就是一个redis实例，一台服务器可以同时有多个redis实例，不同的redis实例提供不同的服务端口对外提供服务，每个redis实例之间互相没有影响。每个redis实例都包括自己的数据库，数据库中可以存储自己的数据。 
 
 **6.2 多数据库测试**
 
@@ -272,7 +272,7 @@ ERR invaild DB index
 
 在0号数据库存储数据，在1号数据库执行清空数据命令却把0号数据库的数据给清空了：
 
-![两个数据库清除数据的问题](F:\学习笔记\Redis\两个数据库清除数据的问题.png) 
+![两个数据库清除数据的问题](.\Redis\两个数据库清除数据的问题.png) 
 
 **建议：不同的应用系统要使用不同的redis实例而不是使用同一个redis实例下的不同数据库。**
 
@@ -1616,7 +1616,7 @@ ps -aux|grep redis
 
 * 一个redis可以即是主又是从，如下图：
 
-![主从关系](F:\学习笔记\Redis\主从关系.png)
+![主从关系](.\Redis\主从关系.png)
 
 [三张图秒懂Redis集群设计原理](https://blog.csdn.net/yejingtao703/article/details/78484151)
 
