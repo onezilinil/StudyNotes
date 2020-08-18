@@ -577,7 +577,7 @@ java代码参考测试工程。
 
 hash叫散列类型，它提供了字段和字段值的映射。字段值只能是字符串类型，不支持散列类型、集合类型等其它类型。如下：
 
-![redis hash介绍](F:\学习笔记\Redis\redis hash介绍.png) 
+![redis hash介绍](.\Redis\redis hash介绍.png) 
 
  
 
@@ -738,9 +738,9 @@ java代码参考测试工程。
 
 ArrayList使用数组方式存储数据，所以根据索引查询数据速度快，而新增或者删除元素时需要设计到位移操作，所以比较慢；LinkedList使用双向链接方式存储数据，每个元素都记录前后元素的指针，所以插入、删除数据时只是更改前后元素的指针指向即可，速度非常快，然后通过下标查询元素时需要从头开始索引，所以比较慢，但是如果查询前几个元素或后几个元素速度比较快。
 
-![ArrayList与LinkedList的区别](F:\学习笔记\Redis\ArrayList与LinkedList的区别.png) 
+![ArrayList与LinkedList的区别](.\Redis\ArrayList与LinkedList的区别.png) 
 
-![ArrayList与LinkedList的区别2](F:\学习笔记\Redis\ArrayList与LinkedList的区别2.png) 
+![ArrayList与LinkedList的区别2](.\Redis\ArrayList与LinkedList的区别2.png) 
 
 ### **2.redis list介绍**
 
@@ -922,7 +922,7 @@ java代码参考测试工程。
 
  集合类型和列表类型的对比：
 
-![集合类型和列表类型](F:\学习笔记\Redis\集合类型和列表类型.png) 
+![集合类型和列表类型](.\Redis\集合类型和列表类型.png) 
 
 集合类型的常用操作是向集合中加入或删除元素、判断某个元素是否存在等，由于集合类型的Redis内部是使用值为空的散列表实现，所有这些操作的时间复杂度都为0(1)。 Redis还提供了多个集合之间的交集、并集、差集的运算。
 
