@@ -1264,7 +1264,7 @@ var routerObj = new VueRouter({
 
 **5.1 使用query方式传递参数**
 
-不需要修改路由中的path， 通过`this.$route.params`就可以获取到参数。
+不需要修改路由中的path， 通过`this.$route.query`就可以获取到参数。
 
 ```vue
 //url: #/login?name=zs&age=20
