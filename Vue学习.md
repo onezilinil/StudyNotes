@@ -886,7 +886,7 @@ vue有默认自带的过滤器
 
 从Vue实例创建、运行、到销毁期间，总是伴随着各种各样的事件，这些事件，统称为生命周期。
 
-![vue的生命周期](https://allenwan14353.github.io/MyPostImages/vue/lifecycle.png)
+![vue的生命周期](https://onezilinil.github.io/MyPostImages/vue/lifecycle.png)
 
 ​                                                            **图2 vue生命周期图**
 
