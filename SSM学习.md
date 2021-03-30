@@ -98,7 +98,7 @@ public static void main(String[] args) {
 
 ### 2. Mybatis配置文件流程
 
-![Mybatis配置的基本流程](F:\学习笔记\SSM\Mybatis配置的基本流程.png)
+![Mybatis配置的基本流程](.\SSM\Mybatis配置的基本流程.png)
 
 Mybatis配置：
 
@@ -1331,7 +1331,7 @@ publicclass ItemController {
 
 #### 1.1 SpringMVC的执行流程
 
-![SpringMVC的执行流程](F:\学习笔记\SSM\SpringMVC的执行流程.png)
+![SpringMVC的执行流程](.\SSM\SpringMVC的执行流程.png)
 
 * 用户发送HttpRequest请求到前端控制器DispatcherServlet，前端控制器调用处理映射器HandlerMapping。
 * 处理映射器根据URL找到具体的处理器Handler，生成处理器对象以及拦截器链一并返回给前端控制器。
